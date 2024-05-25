@@ -1,20 +1,20 @@
 local lush = require('lush')
 local hsl = lush.hsl
 
-local bg_light = '#403E3E'
-local bg = '#313030'
-local bg_dark = '#2B2B29'
+local bg_light = '#35332C'
+local bg = '#272520'
+local bg_dark = '#1B1A18'
 
-local fg = '#F4EEDE'
-local fg_dark = '#AA9E8C'
-local fg_darkest = '#86796A'
+local fg = '#FEF6E6'
+local fg_dark = '#DED2BA'
+local fg_darkest = '#A39C8F'
 
-local ghost = '#6B6361'
-local ghost_dark = '#484543'
+local ghost = '#5E5B55'
+local ghost_dark = '#484743'
 
 local red = '#F46B73'
-local orange = '#FA9A65'
-local yellow = '#FBC574'
+local orange = '#F2A77D'
+local yellow = '#FCD68C'
 local green = '#A9DD97'
 local blue = '#3E8FB0'
 local light_blue = '#9CCFD8' 
@@ -26,7 +26,17 @@ local light_pink = '#FCB9D5'
 local theme = lush(function(injected_functions)
   local sym = injected_functions.sym
   return {
-    ColorColumn    { bg = bg_dark}, -- Columns set with 'colorcolumn'
+        -- The following are the Neovim (as of 0.8.0-dev+100-g371dfb174) highlight
+    -- groups, mostly used for styling UI elements.
+    -- Comment them out and add your own properties to override the defaults.
+    -- An empty definition `{}` will clear all styling, leaving elements looking
+    -- like the 'Normal' group.
+    -- To be able to link to a group, it must already be defined, so you may have
+    -- to reorder items as you go.
+    --
+    -- See :h highlight-groups
+    --
+    ColorColumn    { bg = bg_dark }, -- Columns set with 'colorcolumn'
     -- Conceal        { }, -- Placeholder characters substituted for concealed text (see 'conceallevel')
     -- Cursor         { }, -- Character under the cursor
     -- CurSearch      { }, -- Highlighting a search pattern under the cursor (see 'hlsearch')
@@ -46,13 +56,13 @@ local theme = lush(function(injected_functions)
     -- VertSplit      { }, -- Column separating vertically split windows
     -- Folded         { }, -- Line used for closed folds
     -- FoldColumn     { }, -- 'foldcolumn'
-    -- SignColumn     { }, -- Column where |signs| are displayed
+    SignColumn     { fg = fg, bg = bg }, -- Column where |signs| are displayed
     -- IncSearch      { }, -- 'incsearch' highlighting; also used for the text replaced with ":s///c"
     -- Substitute     { }, -- |:substitute| replacement text highlighting
     LineNr         { fg = ghost_dark }, -- Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
     -- LineNrAbove    { }, -- Line number for when the 'relativenumber' option is set, above the cursor line
     -- LineNrBelow    { }, -- Line number for when the 'relativenumber' option is set, below the cursor line
-    CursorLineNr   { fg = ghost }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+    CursorLineNr   { fg = fg_darkest }, -- Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
     -- CursorLineFold { }, -- Like FoldColumn when 'cursorline' is set for the cursor line
     -- CursorLineSign { }, -- Like SignColumn when 'cursorline' is set for the cursor line
     -- MatchParen     { }, -- Character under the cursor or just before it, if it is a paired bracket, and its match. |pi_paren.txt|
@@ -61,7 +71,7 @@ local theme = lush(function(injected_functions)
     -- MsgSeparator   { }, -- Separator for scrolled messages, `msgsep` flag of 'display'
     -- MoreMsg        { }, -- |more-prompt|
     -- NonText        { }, -- '@' at the end of the window, characters from 'showbreak' and other characters that do not really exist in the text (e.g., ">" displayed when a double-wide character doesn't fit at the end of the line). See also |hl-EndOfBuffer|.
-    Normal         { bg = bg, fg = fg}, -- Normal text
+    Normal         { fg = fg, bg = bg }, -- Normal text
     -- NormalFloat    { }, -- Normal text in floating windows.
     -- FloatBorder    { }, -- Border of floating windows.
     -- FloatTitle     { }, -- Title of floating windows.
@@ -97,20 +107,27 @@ local theme = lush(function(injected_functions)
     -- WinBar         { }, -- Window bar of current window
     -- WinBarNC       { }, -- Window bar of not-current windows
 
+    -- Common vim syntax groups used for all kinds of code and markup.
+    -- Commented-out groups should chain up to their preferred (*) group
+    -- by default.
+    --
+    -- See :h group-name
+    --
+    -- Uncomment and edit if you want more specific syntax highlighting.
 
-    Comment        { fg = ghost, gui = 'italic' }, -- Any comment
+    Comment        { fg = ghost, gui = "italic" }, -- Any comment
 
-    Constant       { fg = green }, -- (*) Any constant
+    Constant       { fg = green}, -- (*) Any constant
     -- String         { }, --   A string constant: "this is a string"
     -- Character      { }, --   A character constant: 'c', '\n'
     -- Number         { }, --   A number constant: 234, 0xff
     -- Boolean        { }, --   A boolean constant: TRUE, false
     -- Float          { }, --   A floating point constant: 2.3e10
 
-    Identifier     { fg = fg }, -- (*) Any variable name
-    Function       { fg = blue }, --   Function name (also: methods for classes)
+    Identifier     { fg = light_blue }, -- (*) Any variable name
+    -- Function       { }, --   Function name (also: methods for classes)
 
-    Statement      { fg = purple, gui = 'italic' }, -- (*) Any statement
+    Statement      { fg = purple }, -- (*) Any statement
     -- Conditional    { }, --   if, then, else, endif, switch, etc.
     -- Repeat         { }, --   for, do, while, etc.
     -- Label          { }, --   case, default, etc.
@@ -118,21 +135,21 @@ local theme = lush(function(injected_functions)
     -- Keyword        { }, --   any other keyword
     -- Exception      { }, --   try, catch, throw
 
-    PreProc        { fg = pink}, -- (*) Generic Preprocessor
+    -- PreProc        { }, -- (*) Generic Preprocessor
     -- Include        { }, --   Preprocessor #include
     -- Define         { }, --   Preprocessor #define
     -- Macro          { }, --   Same as Define
     -- PreCondit      { }, --   Preprocessor #if, #else, #endif, etc.
 
-    Type           { fg = green }, -- (*) int, long, char, etc.
+    Type           { fg = blue }, -- (*) int, long, char, etc.
     -- StorageClass   { }, --   static, register, volatile, etc.
     -- Structure      { }, --   struct, union, enum, etc.
     -- Typedef        { }, --   A typedef
 
-    Special        { fg = light_blue }, -- (*) Any special symbol
+    -- Special        { }, -- (*) Any special symbol
     -- SpecialChar    { }, --   Special character in a constant
     -- Tag            { }, --   You can use CTRL-] on this
-    -- Delimiter      { }, --   Character that needs attention
+    Delimiter      { fg = fg_dark }, --   Character that needs attention
     -- SpecialComment { }, --   Special things inside a comment (e.g. '\n')
     -- Debug          { }, --   Debugging statements
 
@@ -141,7 +158,12 @@ local theme = lush(function(injected_functions)
     -- Error          { }, -- Any erroneous construct
     -- Todo           { }, -- Anything that needs extra attention; mostly the keywords TODO FIXME and XXX
 
+    -- These groups are for the native LSP client and diagnostic system. Some
+    -- other LSP clients may use these groups, or use their own. Consult your
+    -- LSP client's documentation.
 
+    -- See :h lsp-highlight, some groups may not be listed, submit a PR fix to lush-template!
+    --
     -- LspReferenceText            { } , -- Used for highlighting "text" references
     -- LspReferenceRead            { } , -- Used for highlighting "read" references
     -- LspReferenceWrite           { } , -- Used for highlighting "write" references
@@ -149,9 +171,10 @@ local theme = lush(function(injected_functions)
     -- LspCodeLensSeparator        { } , -- Used to color the seperator between two or more code lens.
     -- LspSignatureActiveParameter { } , -- Used to highlight the active parameter in the signature help. See |vim.lsp.handlers.signature_help()|.
 
-
+    -- See :h diagnostic-highlights, some groups may not be listed, submit a PR fix to lush-template!
+    --
     DiagnosticError            { fg = red } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
-    -- DiagnosticWarn             { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
+    DiagnosticWarn             { fg = yellow } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     -- DiagnosticInfo             { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     -- DiagnosticHint             { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
     -- DiagnosticOk               { } , -- Used as the base highlight group. Other Diagnostic highlights link to this by default (except Underline)
@@ -160,7 +183,7 @@ local theme = lush(function(injected_functions)
     -- DiagnosticVirtualTextInfo  { } , -- Used for "Info" diagnostic virtual text.
     -- DiagnosticVirtualTextHint  { } , -- Used for "Hint" diagnostic virtual text.
     -- DiagnosticVirtualTextOk    { } , -- Used for "Ok" diagnostic virtual text.
-    -- DiagnosticUnderlineError   { } , -- Used to underline "Error" diagnostics.
+    DiagnosticUnderlineError   { sp = red, gui = "underline" } , -- Used to underline "Error" diagnostics.
     -- DiagnosticUnderlineWarn    { } , -- Used to underline "Warn" diagnostics.
     -- DiagnosticUnderlineInfo    { } , -- Used to underline "Info" diagnostics.
     -- DiagnosticUnderlineHint    { } , -- Used to underline "Hint" diagnostics.
@@ -176,52 +199,192 @@ local theme = lush(function(injected_functions)
     -- DiagnosticSignHint         { } , -- Used for "Hint" signs in sign column.
     -- DiagnosticSignOk           { } , -- Used for "Ok" signs in sign column.
 
+    -- Tree-Sitter syntax groups.
+    --
+    -- See :h treesitter-highlight-groups, some groups may not be listed,
+    -- submit a PR fix to lush-template!
+    --
+    -- Tree-Sitter groups are defined with an "@" symbol, which must be
+    -- specially handled to be valid lua code, we do this via the special
+    -- sym function. The following are all valid ways to call the sym function,
+    -- for more details see https://www.lua.org/pil/5.html
+    --
+    -- sym("@text.literal")
+    -- sym('@text.literal')
+    -- sym"@text.literal"
+    -- sym'@text.literal'
+    --
+    -- For more information see https://github.com/rktjmp/lush.nvim/issues/109
+    --
+    -- To find all options, go to https://github.com/nvim-treesitter/nvim-treesitter/blob/master/CONTRIBUTING.md#highlights
 
-    -- sym"@text.literal"      { }, -- Comment
-    -- sym"@text.reference"    { }, -- Identifier
-    -- sym"@text.title"        { }, -- Title
-    -- sym"@text.uri"          { }, -- Underlined
-    -- sym"@text.underline"    { }, -- Underlined
-    -- sym"@text.todo"         { }, -- Todo
-    -- sym"@comment"           { }, -- Comment
-    -- sym"@punctuation"       { }, -- Delimiter
-    -- sym"@constant"          { }, -- Constant
-    -- sym"@constant.builtin"  { }, -- Special
-    -- sym"@constant.macro"    { }, -- Define
-    -- sym"@define"            { }, -- Define
-    -- sym"@macro"             { }, -- Macro
-    -- sym"@string"            { }, -- String
-    -- sym"@string.escape"     { }, -- SpecialChar
-    -- sym"@string.special"    { }, -- SpecialChar
-    -- sym"@character"         { }, -- Character
-    -- sym"@character.special" { }, -- SpecialChar
-    -- sym"@number"            { }, -- Number
-    -- sym"@boolean"           { }, -- Boolean
-    -- sym"@float"             { }, -- Float
-    -- sym"@function"          { }, -- Function
-    -- sym"@function.builtin"  { }, -- Special
-    -- sym"@function.macro"    { }, -- Macro
-    -- sym"@parameter"         { }, -- Identifier
-    -- sym"@method"            { }, -- Function
-    -- sym"@field"             { }, -- Identifier
-    -- sym"@property"          { }, -- Identifier
-    -- sym"@constructor"       { }, -- Special
-    -- sym"@conditional"       { }, -- Conditional
-    -- sym"@repeat"            { }, -- Repeat
-    -- sym"@label"             { }, -- Label
-    -- sym"@operator"          { }, -- Operator
-    -- sym"@keyword"           { }, -- Keyword
-    -- sym"@exception"         { }, -- Exception
-    -- sym"@variable"          { }, -- Identifier
-    -- sym"@type"              { }, -- Type
-    -- sym"@type.definition"   { }, -- Typedef
-    -- sym"@storageclass"      { }, -- StorageClass
-    -- sym"@structure"         { }, -- Structure
-    -- sym"@namespace"         { }, -- Identifier
-    -- sym"@include"           { }, -- Include
-    -- sym"@preproc"           { }, -- PreProc
-    -- sym"@debug"             { }, -- Debug
-    -- sym"@tag"               { }, -- Tag
+    -- Identifiers
+    -- sym"@variable"                   { }, -- various variable names
+    -- sym"@variable.builtin"           { }, -- built-in variable names (e.g. `this`)
+    -- sym"@variable.parameter"         { }, -- parameters of a function
+    -- sym"@variable.parameter.builtin" { }, -- special parameters (e.g. `_`, `it`)
+    -- sym"@variable.member"            { }, -- object and struct fields
+
+    -- sym"@constant"         { }, -- constant identifiers
+    -- sym"@constant.builtin" { }, -- built-in constant values
+    -- sym"@constant.macro"   { }, -- constants defined by the preprocessor
+
+    -- sym"@module"           { }, -- modules or namespaces
+    -- sym"@module.builtin"   { }, -- built-in modules or namespaces
+    -- sym"@label"            { }, -- GOTO and other labels (e.g. `label:` in C), including heredoc labels
+
+    -- Literals
+    -- sym"@string"                { }, -- string literals
+    -- sym"@string.documentation"  { }, -- string documenting code (e.g. Python docstrings)
+    -- sym"@string.regexp"         { }, -- regular expressions
+    -- sym"@string.escape"         { }, -- escape sequences
+    -- sym"@string.special"        { }, -- other special strings (e.g. dates)
+    -- sym"@string.special.symbol" { }, -- symbols or atoms
+    -- sym"@string.special.url"    { }, -- URIs (e.g. hyperlinks)
+    -- sym"@string.special.path"   { }, -- filenames
+
+    -- sym"@character"             { }, -- character literals
+    -- sym"@character.special"     { }, -- special characters (e.g. wildcards)
+
+    -- sym"@boolean"               { }, -- boolean literals
+    -- sym"@number"                { }, -- numeric literals
+    -- sym"@number.float"          { }, -- floating-point number literals
+    
+    -- Types
+    -- sym"@type"            { }, -- type or class definitions and annotations
+    -- sym"@type.builtin"    { }, -- built-in types
+    -- sym"@type.definition" { }, -- identifiers in type definitions (e.g. `typedef <type> <identifier>` in C)
+
+    -- sym"@attribute"         { }, -- attribute annotations (e.g. Python decorators, Rust lifetimes)
+    -- sym"@attribute.builtin" { }, -- builtin annotations (e.g. `@property` in Python)
+    -- sym"@property"          { }, -- the key in key/value pairs
+
+    -- Functions
+    -- sym"@function"            { }, -- function definitions
+    -- sym"@function.builtin"    { }, -- built-in functions
+    -- sym"@function.call"       { }, -- function calls
+    -- sym"@function.macro"      { }, -- preprocessor macros
+
+    -- sym"@function.method"     { }, -- method definitions
+    -- sym"@function.method.call"{ }, -- method calls
+
+    -- sym"@constructor"         { }, -- constructor calls and definitions
+    -- sym"@operator"            { }, -- symbolic operators (e.g. `+` / `*`)
+
+    -- Keywords
+    -- sym"@keyword"                  { }, -- keywords not fitting into specific categories
+    -- sym"@keyword.coroutine"        { }, -- keywords related to coroutines (e.g. `go` in Go, `async/await` in Python)
+    -- sym"@keyword.function"         { }, -- keywords that define a function (e.g. `func` in Go, `def` in Python)
+    -- sym"@keyword.operator"         { }, -- operators that are English words (e.g. `and` / `or`)
+    -- sym"@keyword.import"           { }, -- keywords for including or exporting modules (e.g. `import` / `from` in Python)
+    -- sym"@keyword.type"             { }, -- keywords describing namespaces and composite types (e.g. `struct`, `enum`)
+    -- sym"@keyword.modifier"         { }, -- keywords modifying other constructs (e.g. `const`, `static`, `public`)
+    -- sym"@keyword.repeat"           { }, -- keywords related to loops (e.g. `for` / `while`)
+    -- sym"@keyword.return"           { }, -- keywords like `return` and `yield`
+    -- sym"@keyword.debug"            { }, -- keywords related to debugging
+    -- sym"@keyword.exception"        { }, -- keywords related to exceptions (e.g. `throw` / `catch`)
+
+    -- sym"@keyword.conditional"        { }, -- keywords related to conditionals (e.g. `if` / `else`)
+    -- sym"@keyword.conditional.ternary"{ }, -- ternary operator (e.g. `?` / `:`)
+
+    -- sym"@keyword.directive"        { }, -- various preprocessor directives & shebangs
+    -- sym"@keyword.directive.define" { }, -- preprocessor definition directives
+    
+    -- Punctuation
+    -- sym"@punctuation.delimiter"{ }, -- delimiters (e.g. `;` / `.` / `,`)
+    -- sym"@punctuation.bracket"  { }, -- brackets (e.g. `()` / `{}` / `[]`)
+    -- sym"@punctuation.special"  { }, -- special symbols (e.g. `{}` in string interpolation)
+
+    -- Comments
+    -- sym"@comment"              { }, -- line and block comments
+    -- sym"@comment.documentation"{ }, -- comments documenting code
+
+    -- sym"@comment.error"        { }, -- error-type comments (e.g. `ERROR`, `FIXME`, `DEPRECATED`)
+    -- sym"@comment.warning"      { }, -- warning-type comments (e.g. `WARNING`, `FIX`, `HACK`)
+    -- sym"@comment.todo"         { }, -- todo-type comments (e.g. `TODO`, `WIP`)
+    -- sym"@comment.note"         { }, -- note-type comments (e.g. `NOTE`, `INFO`, `XXX`)
+
+    -- Markup
+    -- sym"@markup.strong"        { }, -- bold text
+    -- sym"@markup.italic"        { }, -- italic text
+    -- sym"@markup.strikethrough" { }, -- struck-through text
+    -- sym"@markup.underline"     { }, -- underlined text (only for literal underline markup!)
+
+    -- sym"@markup.heading"       { }, -- headings, titles (including markers)
+    -- sym"@markup.heading.1"     { }, -- top-level heading
+    -- sym"@markup.heading.2"     { }, -- section heading
+    -- sym"@markup.heading.3"     { }, -- subsection heading
+    -- sym"@markup.heading.4"     { }, -- and so on
+    -- sym"@markup.heading.5"     { }, -- and so forth
+    -- sym"@markup.heading.6"     { }, -- six levels ought to be enough for anybody
+
+    -- sym"@markup.quote"         { }, -- block quotes
+    -- sym"@markup.math"          { }, -- math environments (e.g. `$ ... $` in LaTeX)
+
+    -- sym"@markup.link"          { }, -- text references, footnotes, citations, etc.
+    -- sym"@markup.link.label"    { }, -- link, reference descriptions
+    -- sym"@markup.link.url"      { }, -- URL-style links
+
+    -- sym"@markup.raw"           { }, -- literal or verbatim text (e.g. inline code)
+    -- sym"@markup.raw.block"     { }, -- literal or verbatim text as a stand-alone block
+                                       -- (use priority 90 for blocks with injections)
+
+    -- sym"@markup.list"          { }, -- list markers
+    -- sym"@markup.list.checked"  { }, -- checked todo-style list markers
+    -- sym"@markup.list.unchecked"{ }, -- unchecked todo-style list markers
+
+
+    -- sym"@diff.plus"      { }, -- added text (for diff files)
+    -- sym"@diff.minus"     { }, -- deleted text (for diff files)
+    -- sym"@diff.delta"     { }, -- changed text (for diff files)
+
+    sym"@tag"          { fg = red }, -- XML-style tag names (and similar)
+    -- sym"@tag.builtin"  { }, -- builtin tag names (e.g. HTML5 tags)
+    sym"@tag.attribute"{ fg = fg}, -- XML-style tag attributes
+    sym"@tag.delimiter"{ fg = fg_darkest}, -- XML-style tag delimiters
+
+
+    -- Non-highlighting captures
+    -- sym"@none"   { }, -- completely disable the highlight
+    -- sym"@conceal"{ }, -- captures that are only meant to be concealed
+
+    -- sym"@spell"  { }, -- for defining regions to be spellchecked
+    -- sym"@nospell"{ }, -- for defining regions that should NOT be spellchecked
+
+    -- Locals
+    -- sym"@local.definition"           { }, -- various definitions
+    -- sym"@local.definition.constant"  { }, -- constants
+    -- sym"@local.definition.function"  { }, -- functions
+    -- sym"@local.definition.method"    { }, -- methods
+    -- sym"@local.definition.var"       { }, -- variables
+    -- sym"@local.definition.parameter" { }, -- parameters
+    -- sym"@local.definition.macro"     { }, -- preprocessor macros
+    -- sym"@local.definition.type"      { }, -- types or classes
+    -- sym"@local.definition.field"     { }, -- fields or properties
+    -- sym"@local.definition.enum"      { }, -- enumerations
+    -- sym"@local.definition.namespace" { }, -- modules or namespaces
+    -- sym"@local.definition.import"    { }, -- imported names
+    -- sym"@local.definition.associated"{ }, -- the associated type of a variable
+
+    -- sym"@local.scope"                { }, -- scope block
+    -- sym"@local.reference"            { }, -- identifier reference
+
+    -- Folds
+    -- sym"@fold"{ }, -- fold this node
+
+    -- Injections
+    -- sym"@injection.language"{ }, -- dynamic detection of the injection language (i.e. the text of the captured node describes the language)
+    -- sym"@injection.content" { }, -- region for the dynamically detected language
+
+    -- Indents
+    -- sym"@indent.begin"      { }, -- indent children when matching this node
+    -- sym"@indent.end"        { }, -- marks the end of indented block
+    -- sym"@indent.align"      { }, -- behaves like python aligned/hanging indent
+    -- sym"@indent.dedent"     { }, -- dedent children when matching this node
+    -- sym"@indent.branch"     { }, -- dedent itself when matching this node
+    -- sym"@indent.ignore"     { }, -- do not indent in this node
+    -- sym"@indent.auto"       { }, -- behaves like 'autoindent' buffer option
+    -- sym"@indent.zero"       { }, -- sets this node at position 0 (no indent)  
 }
 end)
 
