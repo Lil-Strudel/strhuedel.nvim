@@ -45,10 +45,10 @@ local theme = lush(function(injected_functions)
     -- CursorColumn   { }, -- Screen-column at the cursor, when 'cursorcolumn' is set.
     CursorLine     { bg = bg_light }, -- Screen-line at the cursor, when 'cursorline' is set. Low-priority if foreground (ctermfg OR guifg) is not set.
     Directory      { fg = light_blue }, -- Directory names (and other special names in listings)
-    DiffAdd        { bg = bg_light }, -- Diff mode: Added line |diff.txt|
-    -- DiffChange     { }, -- Diff mode: Changed line |diff.txt|
-    DiffDelete     { fg = bg_dark , bg = bg_dark}, -- Diff mode: Deleted line |diff.txt|
-    -- DiffText       { }, -- Diff mode: Changed text within a changed line |diff.txt|
+    DiffAdd        { sp = green, gui = "underline" }, -- Diff mode: Added line |diff.txt|
+    DiffChange     { bg = bg_light }, -- Diff mode: Changed line |diff.txt|
+    DiffDelete     { fg = bg_dark, bg = bg_dark }, -- Diff mode: Deleted line |diff.txt|
+    DiffText       { bg = bg_light, sp = purple, gui = "underline" }, -- Diff mode: Changed text within a changed line |diff.txt|
     EndOfBuffer    { fg = bg }, -- Filler lines (~) after the end of the buffer. By default, this is highlighted like |hl-NonText|.
     -- TermCursor     { }, -- Cursor in a focused terminal
     -- TermCursorNC   { }, -- Cursor in an unfocused terminal
@@ -125,7 +125,7 @@ local theme = lush(function(injected_functions)
     -- Float          { }, --   A floating point constant: 2.3e10
 
     Identifier     { fg = light_blue }, -- (*) Any variable name
-    Function       { fg = blue }, --   Function name (also: methods for classes)
+    Function       { fg = yellow }, --   Function name (also: methods for classes)
 
     Statement      { fg = purple }, -- (*) Any statement
     -- Conditional    { }, --   if, then, else, endif, switch, etc.
@@ -261,12 +261,12 @@ local theme = lush(function(injected_functions)
 
     -- Functions
     -- sym"@function"            { }, -- function definitions
-    sym"@function.builtin"    { fg = pink }, -- built-in functions
-    sym"@function.call"       { fg = yellow }, -- function calls
+    sym"@function.builtin"    { fg = red }, -- built-in functions
+    -- sym"@function.call"       { }, -- function calls
     -- sym"@function.macro"      { }, -- preprocessor macros
 
     -- sym"@function.method"     { }, -- method definitions
-    -- sym"@function.method.call"{ }, -- method calls
+    sym"@function.method.call"{ fg = red }, -- method calls
 
     -- sym"@constructor"         { }, -- constructor calls and definitions
     -- sym"@operator"            { }, -- symbolic operators (e.g. `+` / `*`)
